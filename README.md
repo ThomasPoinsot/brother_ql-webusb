@@ -1,4 +1,4 @@
-# brother_ql-web 🖨️
+# brother_ql-webusb 🖨️
 
 A web application and TypeScript library for printing directly to **Brother QL** series printers from your browser via the **WebUSB** API.
 
