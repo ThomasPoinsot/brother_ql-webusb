@@ -12,58 +12,207 @@
       background-color: #f0f2f5;
       color: #1c1e21;
       margin: 0;
-      padding: 24px;
+      padding: 0;
+      height: 100vh;
       display: flex;
       flex-direction: column;
+    }
+
+    header {
+      background: #0064e0;
+      color: white;
+      padding: 12px 24px;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
-    .card {
+    header h1 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .main-wrapper {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .sidebar {
+      width: 320px;
       background: white;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-right: 1px solid #dee2e6;
       padding: 24px;
-      width: 100%;
-      max-width: 600px;
-      margin-bottom: 24px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    h1 {
-      margin-top: 0;
+    .editor-area {
+      flex: 1;
+      background: #e4e6eb;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .editor-toolbar {
+      background: white;
+      padding: 12px 24px;
+      border-bottom: 1px solid #dee2e6;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .canvas-container-wrapper {
+      flex: 1;
+      overflow: auto;
+      background: #e4e6eb;
+      display: flex;
+      position: relative;
+      padding: 100px;
+    }
+
+    .canvas-container-inner {
+      margin: auto !important;
+      position: relative;
+      background: white !important;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+      display: block !important;
+    }
+
+    /* FORCED VISIBILITY FOR FABRIC LAYERS (The Fix) */
+    .lower-canvas {
+      display: block !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      background-color: white !important;
+    }
+
+    .upper-canvas {
+      display: block !important;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+    }
+
+    .dimension-indicator {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
       color: #0064e0;
-      font-size: 24px;
+      font-weight: 600;
+      pointer-events: none;
+      z-index: 100;
+      white-space: nowrap;
+    }
+
+    .dim-width {
+      top: -30px;
+      left: 0;
+      height: 20px;
+      border-bottom: 2px solid #0064e0;
+    }
+
+    .dim-width::before,
+    .dim-width::after {
+      content: '';
+      width: 2px;
+      height: 10px;
+      background: #0064e0;
+      position: absolute;
+      bottom: -2px;
+    }
+
+    .dim-width::before {
+      left: 0;
+    }
+
+    .dim-width::after {
+      right: 0;
+    }
+
+    .dim-height {
+      left: -40px;
+      top: 0;
+      width: 20px;
+      border-right: 2px solid #0064e0;
+      writing-mode: vertical-rl;
+    }
+
+    .dim-height::before,
+    .dim-height::after {
+      content: '';
+      height: 2px;
+      width: 10px;
+      background: #0064e0;
+      position: absolute;
+      right: -2px;
+    }
+
+    .dim-height::before {
+      top: 0;
+    }
+
+    .dim-height::after {
+      bottom: 0;
+    }
+
+    .zoom-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      color: #65676b;
+      margin-right: 12px;
+      min-width: 150px;
+    }
+
+    .zoom-control input {
+      width: 80px;
+      margin: 0;
     }
 
     .form-group {
-      margin-bottom: 16px;
+      margin-bottom: 0;
     }
 
     label {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
+      color: #65676b;
     }
 
     select,
-    input,
-    button {
+    input[type="number"],
+    input[type="text"] {
       width: 100%;
-      padding: 10px;
+      padding: 8px 12px;
       border-radius: 6px;
       border: 1px solid #ddd;
-      font-size: 16px;
+      font-size: 14px;
       box-sizing: border-box;
     }
 
     button {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: none;
       background-color: #0064e0;
       color: white;
-      border: none;
       cursor: pointer;
       font-weight: 600;
       transition: background-color 0.2s;
-      margin-top: 8px;
     }
 
     button:hover {
@@ -75,26 +224,59 @@
       cursor: not-allowed;
     }
 
-    .secondary {
+    .btn-secondary {
       background-color: #e4e6eb;
       color: #1c1e21;
     }
 
-    .secondary:hover {
+    .btn-secondary:hover {
       background-color: #d8dadf;
     }
 
-    #preview {
-      border: 1px solid #ddd;
-      background: #fff;
-      margin-top: 16px;
-      max-width: 100%;
+    .btn-danger {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: #c82333;
+    }
+
+    .toolbar-group {
+      display: flex;
+      gap: 8px;
+      border-right: 1px solid #dee2e6;
+      padding-right: 12px;
+      align-items: center;
+    }
+
+    .toolbar-group:last-child {
+      border-right: none;
+    }
+
+    .icon-btn {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    #textPropsToolbar {
+      background: #f8f9fa;
+      padding: 8px 16px;
+      border-radius: 8px;
+      margin-left: auto;
       display: none;
+      gap: 8px;
+      align-items: center;
     }
 
     .status {
-      font-size: 14px;
-      margin-top: 8px;
+      font-size: 12px;
+      margin-top: 4px;
       color: #65676b;
     }
 
@@ -106,128 +288,165 @@
       color: #dc3545;
     }
 
-    .container {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
+    .advanced-card {
+      background: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      padding: 12px;
     }
   </style>
 </head>
 
 <body>
-  <div class="card">
-    <h1>🖨️ Brother QL WebUSB</h1>
+  <header>
+    <h1>🖨️ Brother QL WebUSB Studio</h1>
+    <div id="connectionStatus" class="status" style="color: white; font-weight: 500;">Device: Not connected</div>
+  </header>
 
-    <div class="form-group">
-      <button id="connectBtn">Connect to Printer</button>
-      <div id="connectionStatus" class="status">Not connected</div>
-    </div>
-
-    <div class="container" id="printControls" style="display:none">
-      <div class="form-group">
-        <label for="modelSelect">Printer Model</label>
-        <select id="modelSelect"></select>
+  <div class="main-wrapper">
+    <aside class="sidebar">
+      <div class="form-group" id="connectWrapper">
+        <button id="connectBtn">Connect to Printer</button>
       </div>
 
-      <div class="form-group">
-        <div style="display: flex; gap: 10px; align-items: end;">
-          <div style="flex: 1;">
-            <label>Label Type</label>
-            <select id="labelSelect" style="padding: 8px; width: 100%;">
-              <!-- Populated via TS -->
-            </select>
-          </div>
-          <button id="detectTapeBtn" class="btn"
-            style="padding: 8px 15px; margin-bottom: 0; flex-shrink: 0; font-size: 12px; width: auto;">Detect
-            Tape</button>
+      <div id="printControls" style="display:none; flex-direction: column; gap: 20px;">
+        <div class="form-group">
+          <label for="modelSelect">Printer Model</label>
+          <select id="modelSelect"></select>
         </div>
-        <div id="tapeStatus" style="font-size: 11px; margin-top: 5px; min-height: 15px;"></div>
-      </div>
 
-      <div class="form-group">
-        <label for="imageInput">Upload Image</label>
-        <input type="file" id="imageInput" accept="image/*" />
-      </div>
-
-      <div class="form-group">
-        <label>Options</label>
-        <div style="display:flex; gap: 10px;">
-          <label style="display:inline; font-weight: normal;"><input type="checkbox" id="cutCheck" checked
-              style="width:auto"> Auto-cut</label>
-          <label style="display:inline; font-weight: normal;"><input type="checkbox" id="redCheck" style="width:auto">
-            Red Layer</label>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Image Settings</label>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <div>
-            <label style="font-weight: normal; font-size: 12px;">Rotation</label>
-            <select id="rotateSelect">
-              <option value="auto">Auto</option>
-              <option value="0">0°</option>
-              <option value="90">90°</option>
-              <option value="180">180°</option>
-              <option value="270">270°</option>
-            </select>
+        <div class="form-group">
+          <label>Label Type</label>
+          <div style="display: flex; gap: 8px;">
+            <select id="labelSelect" style="flex: 1;"></select>
+            <button id="detectTapeBtn" class="btn-secondary icon-btn" title="Auto-detect Tape">🔍</button>
           </div>
-          <div>
-            <label style="font-weight: normal; font-size: 12px;">Dithering</label>
-            <select id="ditherSelect">
-              <option value="none">None (Threshold)</option>
-              <option value="floyd-steinberg">Floyd-Steinberg</option>
-              <option value="stucki" selected>Stucki</option>
-            </select>
+          <div id="tapeStatus" class="status"></div>
+        </div>
+
+        <div class="form-group" id="lengthWrapper" style="display:none">
+          <label for="labelLength">Label Length (mm)</label>
+          <div style="display: flex; gap: 8px;">
+            <input type="number" id="labelLength" value="50" min="10" max="1000" style="flex: 1;">
+            <div class="status" style="margin: 0; display: flex; align-items: center;">mm</div>
           </div>
         </div>
-      </div>
 
-      <div class="form-group"
-        style="background: #f8f9fa; border: 1px solid #dee2e6; border-radius: 4px; padding: 10px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-          <label style="margin-bottom: 0;">Advanced Processing (AI Optimization)</label>
-          <label
-            style="font-weight: normal; font-size: 11px; display: flex; align-items: center; gap: 5px; margin-bottom: 0;">
-            <input type="checkbox" id="enableAI" checked style="width: auto;"> <b>Enabled</b>
-          </label>
+        <div class="form-group">
+          <label for="orientationSelect">Orientation</label>
+          <select id="orientationSelect">
+            <option value="vertical">Vertical</option>
+            <option value="horizontal">Horizontal</option>
+          </select>
         </div>
-        <div id="aiControls" style="display:grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <div>
-            <label style="font-weight: normal; font-size: 11px;">CLAHE Alpha (0.95)</label>
-            <input type="number" id="claheAlpha" value="0.95" step="0.05" min="0" max="1"
-              style="padding: 5px; font-size: 11px; width: 100%;">
+
+        <div class="form-group">
+          <label>Options</label>
+          <div style="display:flex; flex-direction: column; gap: 8px;">
+            <label style="display:flex; align-items: center; font-weight: normal; gap: 8px;">
+              <input type="checkbox" id="cutCheck" checked style="width:auto"> Auto-cut
+            </label>
+            <label style="display:flex; align-items: center; font-weight: normal; gap: 8px;">
+              <input type="checkbox" id="redCheck" style="width:auto"> Red Layer
+            </label>
           </div>
-          <div>
-            <label style="font-weight: normal; font-size: 11px;">CLAHE Clip (6.0)</label>
-            <input type="number" id="claheClip" value="6.0" step="0.5"
-              style="padding: 5px; font-size: 11px; width: 100%;">
-          </div>
-          <div>
-            <label style="font-weight: normal; font-size: 11px;">Min/Max Remap (112/240)</label>
-            <div style="display:flex; gap: 5px;">
-              <input type="number" id="minVisible" value="112" style="padding: 5px; font-size: 11px; width: 50%;">
-              <input type="number" id="maxVisible" value="240" style="padding: 5px; font-size: 11px; width: 50%;">
+        </div>
+
+        <div class="form-group">
+          <label>Image Settings</label>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div>
+              <label style="font-weight: normal; font-size: 11px;">Rotation</label>
+              <select id="rotateSelect">
+                <option value="auto">Auto</option>
+                <option value="0">0°</option>
+                <option value="90">90°</option>
+                <option value="180">180°</option>
+                <option value="270">270°</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-weight: normal; font-size: 11px;">Dithering</label>
+              <select id="ditherSelect">
+                <option value="none">None</option>
+                <option value="floyd-steinberg">Floyd</option>
+                <option value="stucki" selected>Stucki</option>
+              </select>
             </div>
           </div>
-          <div>
-            <label style="font-weight: normal; font-size: 11px;">Gamma (0.98)</label>
-            <input type="number" id="gammaControl" value="0.98" step="0.01"
-              style="padding: 5px; font-size: 11px; width: 100%;">
-          </div>
-          <div>
-            <label style="font-weight: normal; font-size: 11px;">Manual X Offset (Dots)</label>
-            <input type="number" id="manualOffset" value="-25" step="1"
-              style="padding: 5px; font-size: 11px; width: 100%;" title="Positive = Left, Negative = Right">
+        </div>
+
+        <div class="advanced-card">
+          <label style="margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;">
+            <span>Advanced (AI/CLAHE)</span>
+            <input type="checkbox" id="enableAI" checked style="width: auto;">
+          </label>
+          <div id="aiControls" style="display:grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <div>
+              <label style="font-weight: normal; font-size: 11px;">Alpha</label>
+              <input type="number" id="claheAlpha" value="0.95" step="0.05">
+            </div>
+            <div>
+              <label style="font-weight: normal; font-size: 11px;">X-Offset</label>
+              <input type="number" id="manualOffset" value="-25" step="1">
+            </div>
+            <!-- Hidden required inputs for main.ts logic -->
+            <input type="hidden" id="claheClip" value="6.0">
+            <input type="hidden" id="minVisible" value="112">
+            <input type="hidden" id="maxVisible" value="240">
+            <input type="hidden" id="gammaControl" value="0.98">
           </div>
         </div>
+
+        <button id="printBtn" style="padding: 14px; font-size: 16px;">Print Label</button>
+        <div id="printStatus" class="status"></div>
+      </div>
+    </aside>
+
+    <main class="editor-area">
+      <div class="editor-toolbar">
+        <div class="toolbar-group">
+          <div class="zoom-control">
+            <span>Zoom:</span>
+            <input type="range" id="zoomRange" min="0.1" max="5" step="0.1" value="1">
+            <span id="zoomLevel">100%</span>
+          </div>
+        </div>
+
+        <div class="toolbar-group">
+          <button id="addTextBtn" class="btn-secondary icon-btn" title="Add Text">T</button>
+          <button id="addImageBtn" class="btn-secondary icon-btn" title="Add Image">🖼️</button>
+        </div>
+
+        <div class="toolbar-group">
+          <button id="deleteBtn" class="btn-danger icon-btn" title="Delete Selected" disabled>🗑️</button>
+          <button id="clearBtn" class="btn-secondary icon-btn" title="Clear Canvas">🧹</button>
+          <button id="debugBtn" class="btn-secondary icon-btn" title="Diagnostic Render">⚙️</button>
+        </div>
+
+        <div id="textPropsToolbar">
+          <select id="fontFamily" style="width: 120px;">
+            <option value="Arial">Arial</option>
+            <option value="Courier New">Courier</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Verdana">Verdana</option>
+          </select>
+          <input type="number" id="fontSize" value="40" style="width: 60px;">
+          <button id="boldBtn" class="btn-secondary icon-btn"><b>B</b></button>
+          <button id="italicBtn" class="btn-secondary icon-btn"><i>I</i></button>
+        </div>
+
+        <input type="file" id="imageInput" accept="image/*" style="display:none" />
       </div>
 
-      <canvas id="preview"></canvas>
-
-      <button id="printBtn" disabled>Print Label</button>
-      <div id="printStatus" class="status"></div>
-    </div>
+      <div class="canvas-container-wrapper" id="wrapper">
+        <div class="canvas-container-inner" id="canvasInner">
+          <div id="dimWidth" class="dimension-indicator dim-width">0 mm</div>
+          <div id="dimHeight" class="dimension-indicator dim-height">0 mm</div>
+          <canvas id="labelCanvas"></canvas>
+        </div>
+      </div>
+    </main>
   </div>
 
   <script type="module" src="/src/main.ts"></script>
